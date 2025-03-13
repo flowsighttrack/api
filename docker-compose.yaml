@@ -1,0 +1,13 @@
+services:
+  campaigns:
+    build:
+      context: .
+      dockerfile: ./apps/campaigns/Dockerfile
+      target: development
+    command: pnpm run start:dev campaigns
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+  mongo:
+    image: mongo
