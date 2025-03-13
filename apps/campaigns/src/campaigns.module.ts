@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CampaignsService } from './campaigns.service';
 import { CampaignsController } from './campaigns.controller';
-import { DatabaseModule } from '@app/common';
+import { DatabaseModule, LoggerModule } from '@app/common';
 import { CampaignsRepository } from './campaigns.repository';
 import { CampaignDocument, CampaignSchema } from './models/campaign.schema';
 
@@ -14,6 +14,7 @@ import { CampaignDocument, CampaignSchema } from './models/campaign.schema';
         schema: CampaignSchema,
       },
     ]),
+    LoggerModule,
   ],
   controllers: [CampaignsController],
   providers: [CampaignsService, CampaignsRepository],
