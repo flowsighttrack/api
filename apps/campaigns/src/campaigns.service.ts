@@ -7,11 +7,11 @@ import { CampaignsRepository } from './campaigns.repository';
 export class CampaignsService {
   constructor(private readonly campaignRepository: CampaignsRepository) {}
 
-  create(createCampaignDto: CreateCampaignDto) {
+  create(createCampaignDto: CreateCampaignDto, userId: string) {
     return this.campaignRepository.create({
       ...createCampaignDto,
       timestamp: new Date(),
-      userId: '123',
+      userId,
     });
   }
 

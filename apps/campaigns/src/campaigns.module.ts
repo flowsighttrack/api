@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule, LoggerModule } from '@app/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DatabaseModule, LoggerModule, AUTH_SERVICE } from '@app/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import * as Joi from 'joi';
 
@@ -26,6 +27,19 @@ import { CampaignDocument, CampaignSchema } from './models/campaign.schema';
         PORT: Joi.number().required(),
       }),
     }),
+    ClientsModule.registerAsync([
+      {
+        name: AUTH_SERVICE,
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get('AUTH_HOST'),
+            port: configService.get('AUTH_PORT'),
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
   ],
   controllers: [CampaignsController],
   providers: [CampaignsService, CampaignsRepository],
